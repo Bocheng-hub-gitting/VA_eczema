@@ -1,0 +1,55 @@
+QC EXPECTED COUNTS FROM THE ORIGINAL LOGS (distinct patients // rows)  -- DO NOT UPLOAD
+Use these to compare against a re-run. Differences are expected where a fix changed the logic.
+
+PROGRAM 1 (index year 2018)
+ VA patients with a 2018 visit ..................... 2,374,661 // 2,374,661
+ + demographics (before dedupe) .................... 2,374,661 // 2,376,636
+ after dedupe ...................................... 2,374,661 // 2,374,661
+ + second DOB source (inner join) .................. 2,374,237 // 2,454,969
+ after DOB = DOB1 .................................. 2,373,033 // 2,373,033
+ after birth-date restriction (cohort_1) ........... 2,372,820 // 2,372,820
+ VA diagnoses 2016-2020 for cohort ................. 2,372,820 // 223,411,942
+ VA L20 ............................................ 16,536 // 20,556
+ VA L30 ............................................ 48,449 // 62,772
+ Medicare dx 2016-2020 ............................. 1,605,110 // 149,356,259
+ Medicare L20 ...................................... 22,255 // 53,173
+ Medicare L30 ...................................... 92,083 // 194,462
+ Race table (after joins) .......................... 2,300,762 // 2,359,560
+ CDW eczema ........................................ 217,982 // 504,582
+ CDW dx 2017-2019 .................................. 2,371,753 // 2.5421E8
+ VA dx 2017-2019 (cohort) .......................... 2,372,820 // 1.4167E8
+ Medicare dx 2017-2019 (cohort) .................... 1,346,106 // 64,027,538
+ Metabolic syndrome E8881: VA 7,664 // 15,626; Medicare 9,326 // 34,678; CDW 7,208 // 15,480
+ Insulin resistance:        VA 0 // 0; Medicare 8,621 // 29,262; CDW 0 // 0   <-- suspicious
+ Skin infection: VA 531,710 // 1,881,167; Medicare 441,492 // 2,620,077; CDW 536,766 // 2,096,735
+ ADI rows (2016-2019) .............................. 2,372,820 // 3,624,731
+ ADI index-year (2018) ............................. 2,268,080
+ ADI other years ................................... 10,340 // 20,941
+ ADI total ......................................... 2,278,420  (94,400 missing -> imputed)
+ Severity: outpatient CPT 66,398 // 224,033; inpatient CPT 64 // 95
+ DSS pharmacy 2018: 49,964 // 430,887; five target drugs 23,488 // 152,448
+ Eczema among cohort for medication counts ......... 9,311 // 81,874
+ Age>=65 (program 2) ............................... 2,371,556   <-- suspicious (99.9% of cohort)
+
+PROGRAM 3 (index year 2021)
+ VA visits 2021 (patients // rows) ................. 1,953,238 // 78,849,058
+ + demographics .................................... 1,953,238 // 1,954,759
+ + second DOB ...................................... 1,953,151 // 2,018,609
+ after DOB = DOB1 .................................. 1,951,710
+ after birth-date restriction ...................... 1,951,477
+ VA diagnoses 2019-2023 ............................ 1,951,477 // 3.6109E8
+ VA L20 ............................................ 57,713 // 127,156
+ Medicare dx 2019-2023 ............................. 1,351,440 // 104,388,104
+ Medicare L20 ...................................... 18,628 // 48,915
+ Medicare L30 ...................................... 61,617 // 127,986
+ Race table ........................................ 1,890,910 // 1,938,290
+ Stop codes (365d pre-index) ....................... 1,771,236 // 29,568,883
+ VA dx 2020-2022 (cohort) .......................... 1,951,477 // 2.2629E8
+ Medicare dx 2020-2022 (cohort) .................... 1,251,748 // 64,315,538
+ Metabolic syndrome: VA 5,640 // 12,696; Medicare 5,869 // 20,802
+ Insulin resistance: VA 0; Medicare 5,421 // 17,662   <-- suspicious
+ Skin infection: VA 417,440 // 1,589,835; Medicare 314,613 // 1,798,627
+ ADI index-year (2021) ............................. 1,761,443; other years 9,045 // 20,462; total 1,770,188
+ Severity: outpatient CPT 49,486 // 141,823; inpatient CPT 76 // 119
+ DSS pharmacy 2021: 44,730 // 366,056; five target drugs 19,547 // 123,664
+ (The comments "2372820//2372820" and "48449//62772" in the original program 3 were copied from program 1.)
